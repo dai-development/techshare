@@ -1,5 +1,6 @@
 import { Container } from "@/components/container";
 import { UserButton } from "@/features/auth/components/user-button";
+import { CreateArticleButton } from "@/features/articles/components/create-article-button";
 
 export const Header = () => {
   return (
@@ -9,6 +10,7 @@ export const Header = () => {
           Tech<span className="text-blue-600">Share</span>
         </h1>
         <nav className="flex items-center gap-4">
+          <CreateArticleButton />
           <UserButton />
         </nav>
       </Container>
