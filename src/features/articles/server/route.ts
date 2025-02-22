@@ -1,5 +1,5 @@
 import { Hono } from "hono";
-import { eq } from "drizzle-orm";
+import { desc, eq, isNotNull } from "drizzle-orm";
 import { zValidator } from "@hono/zod-validator";
 
 import { db } from "@/db";
@@ -8,6 +8,18 @@ import { sessionMiddleware } from "@/lib/session-middleware";
 import { updateArticleSchema } from "@/features/articles/schemas";
 
 const app = new Hono()
+  /**
+   * 記事一覧取得API
+   */
+  .get("/", sessionMiddleware, async (c) => {
+    const articleList = await db
+      .select()
+      .from(articles)
+      .where(isNotNull(articles.publishedAt))
+      .orderBy(desc(articles.publishedAt));
+
+    return c.json({ data: articleList });
+  })
   /**
    * 記事取得API
    */
